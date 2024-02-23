@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}To Do List{% endblock %}</title>
+
+    <!-- Load the static template tag library -->
+    {% load static %}
+
+    <!-- Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JavaScript bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <!-- Include Dragging for the modals -->
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.17/dist/interact.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/interactjs@1.10.17/dist/api/styles/jsdoc-default.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        {% if user == ''%}
+          <a href="{% url 'users:signup' %}" class="btn btn-outline-primary btn-sm me-2 mt-2">Signup</a>
+          <a href="{% url 'users:signin' %}" class="btn btn-outline-primary btn-sm me-2 mt-2" >Signin</a>
+          <div class="col-md-12 text-center"><h2>Please Signup or Signin to see lists & tasks</h2></div>
+        {% else %}  
+          <a href="{% url 'tasks:create_list' %}" class="btn btn-outline-primary btn-sm me-2 mt-2" >Create List</a>
+          <a href="{% url 'users:logout' %}" class="btn btn-outline-primary btn-sm me-2 mt-2" >Logout</a>
+          <div class="row justify-content-center mt-4 mb-2">
+            <div class="col-md-12 text-center">
+              <h2>Welcome {{ user }}</h2>
+            </div>
+          </div>
+      
+    {% block content %}{% endblock %}
+
+    <!-- Scripts block -->
+    {% block scripts %}
+    {% endblock scripts %}
+    {% endif %}
+</div>
+    <!-- Include your custom JavaScript for modals here -->
+    {% include 'tasks/cookie_modal.html' %}
+  </body>
+  </html>
+

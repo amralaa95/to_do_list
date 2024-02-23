@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+  <div class="mb-3 col-md-4" style="margin-left:39%;">
+    <form method="post" action="{% url 'tasks:search_task' list.id %}" id="taskForm">
+      {% csrf_token %}
+      <input type="text" placeholder="task title" class="form-control col-md-2 mb-2"
+        style="width:75%;background-color: white;color: black;" id="title" name="title" required>
+      <button type="submit" class="btn btn-primary col-md-2">Search</button>
+    </form>
+  </div>
+</div>
+<!-- Your tasks will be dynamically added here -->
+<div class="col-md-3 list" style="margin: 0px 39%">
+  <div class="col-md-12 text-center">{{list.name}}</div>
+
+  {% for task in tasks %}
+    <div class="row list-task">
+      <div class="col-md-12 task-title">{{ task.title }}</div>
+      <div class="col-md-12 task-description">{{ task.description }}</div>
+      {% if task.user.username == user %}
+        <div class="col-md-12">
+          <!-- Make dragable available for Edit button-->
+          <div class="draggable">
+            <div class="d-flex align-items-center">
+              {% if not task.is_completed %}
+                <a href="{% url 'tasks:complete_task' list.id task.id %}"
+                  class="btn btn-outline-primary btn-sm me-2">Complete</a>
+              {% endif %}
+              <a href="{% url 'tasks:update_task' list.id task.id %}" class="btn btn-outline-primary btn-sm me-2"
+                data-bs-toggle="modal" data-bs-target="#editTaskModal{{ task.id }}">Edit</a>
+              <a href="{% url 'tasks:delete_task' list.id task.id %}" class="btn btn-outline-danger btn-sm"
+                onclick="return showConfirmationPopup(event)">Delete</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+<!--Include "Display the success message" code -->
+{% include 'tasks/success_messages.html' %}
+
+<!--Include Function to show the confirmation popup for the "Delete" and "Reset ALL Tasks" button -->
+<div id="confirmationMessage"></div>
+
+{% include 'tasks/confirmation_popup.html' %}
+
+<!-- Include "Add new task" and "Reset All tasks" buttons -->
+{% include 'tasks/add_task_button.html' %}
+
+<!-- Include Dragging for the modals -->
+{% include 'tasks/dragging.html' %}
+{% block scripts %}
+<!-- Your custom JavaScript for modals here -->
+<script>
+  // Add New Task Modal
+  $('#addTaskModal').on('show.bs.modal', function (event) {
+    // Your modal JavaScript code for adding tasks goes here
+    // For example, if you want to clear the input fields when the modal is shown:
+    document.getElementById('taskForm').reset();
+  });
+
+  // Your custom JavaScript for showing confirmation popups goes here
+  function showConfirmationPopup(event) {
+    return confirm('Are you sure you want to delete this task?');
+  }
+</script>
+{% endblock scripts %}
+{% include 'tasks/modals.html' %}
+
+{% endblock content %}
