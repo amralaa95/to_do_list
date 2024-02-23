@@ -79,14 +79,6 @@ body [dark-theme=true] {
   border-radius: 5px;
 }
 
-/* Custom Confirmation Popup for "Reset ALL Tasks" button */
-.confirmation-popup-red {
-  background-color: red;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-}
-
 .list {
   border: 1px solid black;
   margin: 0.2em 0.5em;

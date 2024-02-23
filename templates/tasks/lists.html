@@ -3,23 +3,21 @@
 
 {% block content %}
     <div class="row" style="margin-left: 11.5em">
+    {% if lists|length == 0 %}
+      <div class="col-md-10 text-center"><h2>Please add a list</h2></div>
+    {% endif %}
     {% for list in lists %}
-      <div class="col-md-3 list">
-        <a href="{% url 'tasks:get_list' list.id %}" class="me-2 mt-2" style="color: black ;">{{list.name}}</a>
-      </div>
+      <a href="{% url 'tasks:get_list' list.id %}" class="col-md-3 list me-2 mt-2" style="color: black ;">{{list.name}}</a>
     {% endfor %}
     </div>
 
   <!--Include "Display the success message" code -->
-  {% include 'tasks/success_messages.html' %}
+  {% include 'tasks/messages.html' %}
 
-  <!--Include Function to show the confirmation popup for the "Delete" and "Reset ALL Tasks" button -->
+  <!--Include Function to show the confirmation popup for the "Delete" button -->
   <div id="confirmationMessage"></div>
   
   {% include 'tasks/confirmation_popup.html' %}
-
-  <!-- Include "Add new task" and "Reset All tasks" buttons --> 
-
 
   <!-- Include Dragging for the modals -->
 {% include 'tasks/dragging.html' %}

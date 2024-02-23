@@ -41,14 +41,14 @@
   {% endfor %}
 </div>
 <!--Include "Display the success message" code -->
-{% include 'tasks/success_messages.html' %}
+{% include 'tasks/messages.html' %}
 
-<!--Include Function to show the confirmation popup for the "Delete" and "Reset ALL Tasks" button -->
+<!--Include Function to show the confirmation popup for the "Delete" button -->
 <div id="confirmationMessage"></div>
 
 {% include 'tasks/confirmation_popup.html' %}
 
-<!-- Include "Add new task" and "Reset All tasks" buttons -->
+<!-- Include "Add new task" button -->
 {% include 'tasks/add_task_button.html' %}
 
 <!-- Include Dragging for the modals -->

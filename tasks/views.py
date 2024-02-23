@@ -11,7 +11,6 @@ def create_list(request):
         list.save()
         messages.success(request, 'List added successfully!')
         return redirect('tasks:lists')
-
     return render(request, 'tasks/create_list.html')
 
 
@@ -29,6 +28,7 @@ def get_list(request, list_id):
     list = get_object_or_404(List, id=list_id)
     user = User.objects.filter(id=request.COOKIES.get('user'))
     tasks = Task.objects.filter(list_id=list_id)
+
     context = {
         'list': list,
         'tasks': tasks,
@@ -41,15 +41,16 @@ def create_task(request, list_id):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
+
         user = User.objects.filter(id=request.COOKIES.get('user')).first()
         list = List.objects.get(id=list_id)
         task = Task(user=user, list=list, title=title, description=description)
         task.save()
+
         messages.success(request, 'Task added successfully!')
         return redirect('tasks:get_list', list_id)
 
     return render(request, 'tasks/lists.html', {})
-
 
 
 def search_tasks(request, list_id):
@@ -57,17 +58,16 @@ def search_tasks(request, list_id):
     list = get_object_or_404(List, id=list_id)
     user = User.objects.filter(id=request.COOKIES.get('user'))
     tasks = Task.objects.filter(list_id=list,title=title)
+
     context = {
         'list': list,
         'tasks': tasks,
         'user': user.first().username if user.first() else '',
     }
-
     return render(request, 'tasks/list_tasks.html', context)
 
 
 def update_task(request, list_id, task_id):
-    list = get_object_or_404(List, id=list_id)
     task = get_object_or_404(Task, id=task_id)
 
     if request.method == 'POST':
@@ -80,6 +80,7 @@ def update_task(request, list_id, task_id):
         else:
             task.is_completed=True
         task.save()
+
         messages.success(request, 'Task updated successfully!')
         return redirect('tasks:get_list', list_id)
 
