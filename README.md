@@ -34,3 +34,5 @@ You might need to run the following command if docker has problem with permissio
 ```shell
 chmod +x ./run.sh
 ```
+
+You can access the app through http://127.0.0.1:8000/

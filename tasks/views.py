@@ -57,9 +57,12 @@ def search_tasks(request, list_id):
     title = request.POST.get('title')
     list = get_object_or_404(List, id=list_id)
     user = User.objects.filter(id=request.COOKIES.get('user'))
-    tasks = Task.objects.filter(list_id=list,title=title)
+    tasks = Task.objects.all()
+    if title:
+        tasks = tasks.filter(list_id=list,title=title)
 
     context = {
+        'queryset': title,
         'list': list,
         'tasks': tasks,
         'user': user.first().username if user.first() else '',

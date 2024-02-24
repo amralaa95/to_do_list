@@ -7,7 +7,7 @@
     <form method="post" action="{% url 'tasks:search_task' list.id %}" id="taskForm">
       {% csrf_token %}
       <input type="text" placeholder="task title" class="form-control col-md-2 mb-2"
-        style="width:75%;background-color: white;color: black;" id="title" name="title" required>
+        style="width:75%;background-color: white;color: black;" id="title" name="title" value="{{ queryset }}">
       <button type="submit" class="btn btn-primary col-md-2">Search</button>
     </form>
   </div>
